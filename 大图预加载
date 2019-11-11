@@ -1,0 +1,5 @@
+ imageLoaded = function() {
+   loading.remove();
+   wrapper.appendChild(image);
+ }
+ image.addEventListener('load', imageLoaded, false);
