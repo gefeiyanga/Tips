@@ -1,0 +1,3 @@
+window.history.back();  // 返回上一页
+
+window.location  // url对象
