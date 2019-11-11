@@ -1,0 +1,39 @@
+// 参考 https://github.com/apache/cordova-plugin-inappbrowser
+
+
+// src/utils/cordova.js
+
+ import { routerRedux } from 'dva/router';
+ import { isAndorid } from './helper';
+ import { getHost } from './host';
+ import { get } from './lodash';
+ 
+ function exec(method, ...args) {
+   try {
+@@ -234,5 +236,18 @@ const cordova = {
+   },
+ };
+ 
+ function openInAppBrowser(pathname) {
+   const { host, protocol } = window.location;
+   const statusBarHeight = get(getHost().getState(), 'global.statusBarHeight', 0);
+   const url = `${protocol}//${host}${pathname}?statusBarHeight=${statusBarHeight}`;
+   const inAppBrowserRef = window.open(url, '_blank', 'location=no');
+   inAppBrowserRef.addEventListener('message', (params) => {
+     const { message } = params.data;
+     if (message === 'close') {
+       inAppBrowserRef.close();
+     }
+   });
+ }
+ 
+ 
+ // static/js/strategy/back.js
+ 
+  // 顶部状态栏放回功能
+ function back() {
+   var myMessage = {
+     message: 'close',
+   };
+   webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(myMessage));
+ }
